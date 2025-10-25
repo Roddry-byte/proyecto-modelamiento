@@ -223,6 +223,22 @@ const app = {
 
         document.getElementById(seccionId).classList.add('active');
         document.querySelector(`[data-section="${seccionId}"]`).classList.add('active');
+
+        // MEJORA: Forzar renderizado al entrar a la sección
+        switch (seccionId) {
+            case 'citas':
+                this.renderizarCitas();
+                break;
+            case 'medicamentos':
+                this.renderizarMedicamentos();
+                break;
+            case 'examenes':
+                this.renderizarExamenes();
+                break;
+            case 'familia':
+                this.renderizarFamilia();
+                break;
+        }
     },
 
     // ============================================
@@ -348,7 +364,13 @@ const app = {
         const container = document.getElementById('listaCitas');
 
         if (this.citas.length === 0) {
-            container.innerHTML = '<div class="empty-state">No hay citas registradas</div>';
+            container.innerHTML = `
+              <div class="empty-state">
+                <p>No hay citas registradas</p>
+                <div style="margin-top: 12px;">
+                  <button class="btn btn--primary" onclick="app.mostrarModal('modalCita')">+ Nueva Cita</button>
+                </div>
+              </div>`;
             return;
         }
 
@@ -439,7 +461,13 @@ const app = {
         const container = document.getElementById('listaMedicamentos');
 
         if (this.medicamentos.length === 0) {
-            container.innerHTML = '<div class="empty-state">No hay medicamentos registrados</div>';
+            container.innerHTML = `
+              <div class="empty-state">
+                <p>No hay medicamentos registrados</p>
+                <div style="margin-top: 12px;">
+                  <button class="btn btn--primary" onclick="app.mostrarModal('modalMedicamento')">+ Nuevo Medicamento</button>
+                </div>
+              </div>`;
             return;
         }
 
@@ -521,7 +549,13 @@ const app = {
         const container = document.getElementById('listaExamenes');
 
         if (this.examenes.length === 0) {
-            container.innerHTML = '<div class="empty-state">No hay exámenes registrados</div>';
+            container.innerHTML = `
+              <div class="empty-state">
+                <p>No hay exámenes registrados</p>
+                <div style="margin-top: 12px;">
+                  <button class="btn btn--primary" onclick="app.mostrarModal('modalExamen')">+ Nuevo Examen</button>
+                </div>
+              </div>`;
             return;
         }
 
@@ -586,7 +620,13 @@ const app = {
         const container = document.getElementById('listaFamilia');
 
         if (this.familia.length === 0) {
-            container.innerHTML = '<div class="empty-state">No hay miembros registrados</div>';
+            container.innerHTML = `
+              <div class="empty-state">
+                <p>No hay miembros registrados</p>
+                <div style="margin-top: 12px;">
+                  <button class="btn btn--primary" onclick="app.mostrarModal('modalMiembro')">+ Agregar Miembro</button>
+                </div>
+              </div>`;
             return;
         }
 
