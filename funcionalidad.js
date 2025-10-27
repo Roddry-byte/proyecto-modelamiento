@@ -462,31 +462,12 @@ const app = {
 
         if (this.medicamentos.length === 0) {
             container.innerHTML = `
-              <div class="empty-state">
-                <p>No hay medicamentos registrados</p>
-                <div style="margin-top: 12px;">
-                  <button class="btn btn--primary" onclick="app.mostrarModal('modalMedicamento')">+ Nuevo Medicamento</button>
-                </div>
-              </div>`;
+              <div class=\"empty-state\">\n                <p>No hay medicamentos registrados</p>\n                <div style=\"margin-top: 12px;\">\n                  <button class=\"btn btn--primary\" onclick=\"app.mostrarModal('modalMedicamento')\">+ Nuevo Medicamento</button>\n                </div>\n              </div>`;
             return;
         }
 
         container.innerHTML = this.medicamentos.map(med => `
-      <div class="list-item">
-        <div class="list-item-content">
-          <h4>${med.nombre}</h4>
-          <p><strong>Paciente:</strong> ${med.miembroNombre}</p>
-          <p><strong>Dosis:</strong> ${med.dosis}</p>
-          <p><strong>Horarios:</strong> ${med.horarios.join(', ')}</p>
-          <p><strong>Inicio:</strong> ${this.formatearFechaSolo(med.fechaInicio)}</p>
-          ${med.fechaFin ? `<p><strong>Fin:</strong> ${this.formatearFechaSolo(med.fechaFin)}</p>` : ''}
-        </div>
-        <div class="list-item-actions">
-          <button class="btn btn--warning btn--sm" onclick="app.editarMedicamento(${med.id})">✏️ Editar</button>
-          <button class="btn btn--danger btn--sm" onclick="app.eliminarMedicamento(${med.id})">🗑️ Eliminar</button>
-        </div>
-      </div>
-    `).join('');
+      <div class=\"list-item\">\n        <div class=\"list-item-content\">\n          <h4>${med.nombre}</h4>\n          <p><strong>Paciente:</strong> ${med.miembroNombre}</p>\n          <p><strong>Dosis:</strong> ${med.dosis}</p>\n          <p><strong>Horarios:</strong> ${med.horarios.join(', ')}</p>\n          <p><strong>Inicio:</strong> ${this.formatearFechaSolo(med.fechaInicio)}</p>\n          ${med.fechaFin ? `<p><strong>Fin:</strong> ${this.formatearFechaSolo(med.fechaFin)}</p>` : ''}\n        </div>\n        <div class=\"list-item-actions\">\n          <button class=\"btn btn--warning btn--sm\" onclick=\"app.editarMedicamento(${med.id})\">✏️ Editar</button>\n          <button class=\"btn btn--danger btn--sm\" onclick=\"app.eliminarMedicamento(${med.id})\">🗑️ Eliminar</button>\n        </div>\n      </div>\n    `).join('');
     },
 
     // ============================================
@@ -550,12 +531,7 @@ const app = {
 
         if (this.examenes.length === 0) {
             container.innerHTML = `
-              <div class="empty-state">
-                <p>No hay exámenes registrados</p>
-                <div style="margin-top: 12px;">
-                  <button class="btn btn--primary" onclick="app.mostrarModal('modalExamen')">+ Nuevo Examen</button>
-                </div>
-              </div>`;
+              <div class=\"empty-state\">\n                <p>No hay exámenes registrados</p>\n                <div style=\"margin-top: 12px;\">\n                  <button class=\"btn btn--primary\" onclick=\"app.mostrarModal('modalExamen')\">+ Nuevo Examen</button>\n                </div>\n              </div>`;
             return;
         }
 
@@ -564,20 +540,7 @@ const app = {
         );
 
         container.innerHTML = examenesOrdenados.map(examen => `
-      <div class="list-item">
-        <div class="list-item-content">
-          <h4>${examen.tipo}</h4>
-          <p><strong>Paciente:</strong> ${examen.miembroNombre}</p>
-          <p><strong>Fecha:</strong> ${this.formatearFechaSolo(examen.fecha)}</p>
-          <p><strong>Lugar:</strong> ${examen.lugar}</p>
-          ${examen.resultados ? `<p><strong>Resultados:</strong> ${examen.resultados}</p>` : ''}
-        </div>
-        <div class="list-item-actions">
-          <button class="btn btn--warning btn--sm" onclick="app.editarExamen(${examen.id})">✏️ Editar</button>
-          <button class="btn btn--danger btn--sm" onclick="app.eliminarExamen(${examen.id})">🗑️ Eliminar</button>
-        </div>
-      </div>
-    `).join('');
+      <div class=\"list-item\">\n        <div class=\"list-item-content\">\n          <h4>${examen.tipo}</h4>\n          <p><strong>Paciente:</strong> ${examen.miembroNombre}</p>\n          <p><strong>Fecha:</strong> ${this.formatearFechaSolo(examen.fecha)}</p>\n          <p><strong>Lugar:</strong> ${examen.lugar}</p>\n          ${examen.resultados ? `<p><strong>Resultados:</strong> ${examen.resultados}</p>` : ''}\n        </div>\n        <div class=\"list-item-actions\">\n          <button class=\"btn btn--warning btn--sm\" onclick=\"app.editarExamen(${examen.id})\">✏️ Editar</button>\n          <button class=\"btn btn--danger btn--sm\" onclick=\"app.eliminarExamen(${examen.id})\">🗑️ Eliminar</button>\n        </div>\n      </div>\n    `).join('');
     },
 
     // ============================================
@@ -621,12 +584,7 @@ const app = {
 
         if (this.familia.length === 0) {
             container.innerHTML = `
-              <div class="empty-state">
-                <p>No hay miembros registrados</p>
-                <div style="margin-top: 12px;">
-                  <button class="btn btn--primary" onclick="app.mostrarModal('modalMiembro')">+ Agregar Miembro</button>
-                </div>
-              </div>`;
+              <div class=\"empty-state\">\n                <p>No hay miembros registrados</p>\n                <div style=\"margin-top: 12px;\">\n                  <button class=\"btn btn--primary\" onclick=\"app.mostrarModal('modalMiembro')\">+ Agregar Miembro</button>\n                </div>\n              </div>`;
             return;
         }
 
@@ -634,19 +592,7 @@ const app = {
             const edad = miembro.fechaNacimiento ? this.calcularEdad(miembro.fechaNacimiento) : '';
 
             return `
-        <div class="list-item">
-          <div class="list-item-content">
-            <h4>${miembro.nombre} ${miembro.esPrincipal ? '⭐' : ''}</h4>
-            <p><strong>Parentesco:</strong> ${miembro.parentesco}</p>
-            ${edad ? `<p><strong>Edad:</strong> ${edad} años</p>` : ''}
-            ${miembro.grupoSanguineo ? `<p><strong>Grupo Sanguíneo:</strong> ${miembro.grupoSanguineo}</p>` : ''}
-            ${miembro.esPrincipal ? '<span class="member-badge">Usuario Principal</span>' : ''}
-          </div>
-          <div class="list-item-actions">
-            ${!miembro.esPrincipal ? `<button class="btn btn--danger btn--sm" onclick="app.eliminarMiembro(${miembro.id})">🗑️ Eliminar</button>` : ''}
-          </div>
-        </div>
-      `;
+        <div class=\"list-item\">\n          <div class=\"list-item-content\">\n            <h4>${miembro.nombre} ${miembro.esPrincipal ? '⭐' : ''}</h4>\n            <p><strong>Parentesco:</strong> ${miembro.parentesco}</p>\n            ${edad ? `<p><strong>Edad:</strong> ${edad} años</p>` : ''}\n            ${miembro.grupoSanguineo ? `<p><strong>Grupo Sanguíneo:</strong> ${miembro.grupoSanguineo}</p>` : ''}\n            ${miembro.esPrincipal ? '<span class=\"member-badge\">Usuario Principal</span>' : ''}\n          </div>\n          <div class=\"list-item-actions\">\n            ${!miembro.esPrincipal ? `<button class=\"btn btn--danger btn--sm\" onclick=\"app.eliminarMiembro(${miembro.id})\">🗑️ Eliminar</button>` : ''}\n          </div>\n        </div>\n      `;
         }).join('');
     },
 
@@ -681,19 +627,10 @@ const app = {
                     .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
                 if (citasProximas.length === 0) {
-                    contenido = '<div class="empty-state">No hay citas próximas programadas</div>';
+                    contenido = '<div class=\"empty-state\">No hay citas próximas programadas</div>';
                 } else {
                     contenido = citasProximas.map(cita => `
-            <div class="recordatorio-item">
-              <div class="recordatorio-icon">📅</div>
-              <div class="recordatorio-content">
-                <strong>${cita.especialidad}</strong>
-                <p>${cita.miembroNombre} - Dr. ${cita.medico}</p>
-                <p><small>${this.formatearFecha(cita.fecha)}</small></p>
-                <p><small>📍 ${cita.lugar}</small></p>
-              </div>
-            </div>
-          `).join('');
+            <div class=\"recordatorio-item\">\n              <div class=\"recordatorio-icon\">📅</div>\n              <div class=\"recordatorio-content\">\n                <strong>${cita.especialidad}</strong>\n                <p>${cita.miembroNombre} - Dr. ${cita.medico}</p>\n                <p><small>${this.formatearFecha(cita.fecha)}</small></p>\n                <p><small>📍 ${cita.lugar}</small></p>\n              </div>\n            </div>\n          `).join('');
                 }
                 break;
 
@@ -705,19 +642,10 @@ const app = {
                 });
 
                 if (medicamentosActivos.length === 0) {
-                    contenido = '<div class="empty-state">No hay medicamentos activos</div>';
+                    contenido = '<div class=\"empty-state\">No hay medicamentos activos</div>';
                 } else {
                     contenido = medicamentosActivos.map(med => `
-            <div class="recordatorio-item">
-              <div class="recordatorio-icon">💊</div>
-              <div class="recordatorio-content">
-                <strong>${med.nombre}</strong>
-                <p>${med.miembroNombre}</p>
-                <p><small>💉 ${med.dosis}</small></p>
-                <p><small>🕐 ${med.horarios.join(', ')}</small></p>
-              </div>
-            </div>
-          `).join('');
+            <div class=\"recordatorio-item\">\n              <div class=\"recordatorio-icon\">💊</div>\n              <div class=\"recordatorio-content\">\n                <strong>${med.nombre}</strong>\n                <p>${med.miembroNombre}</p>\n                <p><small>💉 ${med.dosis}</small></p>\n                <p><small>🕐 ${med.horarios.join(', ')}</small></p>\n              </div>\n            </div>\n          `).join('');
                 }
                 break;
 
@@ -728,20 +656,10 @@ const app = {
                     .slice(0, 10);
 
                 if (examenesRecientes.length === 0) {
-                    contenido = '<div class="empty-state">No hay exámenes registrados</div>';
+                    contenido = '<div class=\"empty-state\">No hay exámenes registrados</div>';
                 } else {
                     contenido = examenesRecientes.map(examen => `
-            <div class="recordatorio-item">
-              <div class="recordatorio-icon">🔬</div>
-              <div class="recordatorio-content">
-                <strong>${examen.tipo}</strong>
-                <p>${examen.miembroNombre}</p>
-                <p><small>📅 ${this.formatearFechaSolo(examen.fecha)}</small></p>
-                <p><small>📍 ${examen.lugar}</small></p>
-                ${examen.resultados ? `<p><small>📋 ${examen.resultados}</small></p>` : ''}
-              </div>
-            </div>
-          `).join('');
+            <div class=\"recordatorio-item\">\n              <div class=\"recordatorio-icon\">🔬</div>\n              <div class=\"recordatorio-content\">\n                <strong>${examen.tipo}</strong>\n                <p>${examen.miembroNombre}</p>\n                <p><small>📅 ${this.formatearFechaSolo(examen.fecha)}</small></p>\n                <p><small>📍 ${examen.lugar}</small></p>\n                ${examen.resultados ? `<p><small>📋 ${examen.resultados}</small></p>` : ''}\n              </div>\n            </div>\n          `).join('');
                 }
                 break;
 
@@ -750,16 +668,7 @@ const app = {
                 contenido = this.familia.map(miembro => {
                     const edad = miembro.fechaNacimiento ? this.calcularEdad(miembro.fechaNacimiento) : '';
                     return `
-            <div class="recordatorio-item">
-              <div class="recordatorio-icon">👤</div>
-              <div class="recordatorio-content">
-                <strong>${miembro.nombre} ${miembro.esPrincipal ? '⭐' : ''}</strong>
-                <p>${miembro.parentesco}</p>
-                ${edad ? `<p><small>🎂 ${edad} años</small></p>` : ''}
-                ${miembro.grupoSanguineo ? `<p><small>🩸 ${miembro.grupoSanguineo}</small></p>` : ''}
-              </div>
-            </div>
-          `;
+            <div class=\"recordatorio-item\">\n              <div class=\"recordatorio-icon\">👤</div>\n              <div class=\"recordatorio-content\">\n                <strong>${miembro.nombre} ${miembro.esPrincipal ? '⭐' : ''}</strong>\n                <p>${miembro.parentesco}</p>\n                ${edad ? `<p><small>🎂 ${edad} años</small></p>` : ''}\n                ${miembro.grupoSanguineo ? `<p><small>🩸 ${miembro.grupoSanguineo}</small></p>` : ''}\n              </div>\n            </div>\n          `;
                 }).join('');
                 break;
         }
@@ -847,13 +756,7 @@ const app = {
         }
 
         container.innerHTML = recordatorios.map(rec => `
-      <div class="recordatorio-item ${rec.activo ? 'activo' : ''}">
-        <div class="recordatorio-icon">💊</div>
-        <div class="recordatorio-content">
-          <strong>${rec.medicamento}</strong>
-          <p>${rec.paciente} - ${rec.hora} ${rec.activo ? '- ¡Es hora de tomar el medicamento!' : ''}</p>
-        </div>
-      </div>
+      <div class="recordatorio-item ${rec.activo ? 'activo' : ''}">\n        <div class="recordatorio-icon">💊</div>\n        <div class="recordatorio-content">\n          <strong>${rec.medicamento}</strong>\n          <p>${rec.paciente} - ${rec.hora} ${rec.activo ? '- ¡Es hora de tomar el medicamento!' : ''}</p>\n        </div>\n      </div>
     `).join('');
     },
 
@@ -900,30 +803,167 @@ const app = {
     },
 
     // ============================================
-    // DESCARGAR HISTORIAL
+    // DESCARGAR HISTORIAL (PDF sobrio)
     // ============================================
     descargarHistorial() {
-        const historial = {
-            usuario: this.usuarioActual.nombre,
-            fechaExportacion: new Date().toISOString(),
-            familia: this.familia,
-            citas: this.citas,
-            medicamentos: this.medicamentos,
-            examenes: this.examenes
+        if (!window.jspdf) {
+            this.mostrarNotificacion('No se pudo cargar el generador de PDF', 'error');
+            return;
+        }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+
+        // Configuración de diseño sobrio
+        const margin = 48; // 48 pt = ~17 mm
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        let y = margin;
+        const lineH = 18;
+        const gray = '#111827';
+        const grayMuted = '#6b7280';
+
+        const drawHr = () => {
+            doc.setDrawColor(226, 232, 240);
+            doc.line(margin, y, pageWidth - margin, y);
+            y += 12;
         };
 
-        const dataStr = JSON.stringify(historial, null, 2);
-        const dataBlob = new Blob([dataStr], { type: 'application/json' });
-        const url = URL.createObjectURL(dataBlob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `historial_medico_${Date.now()}.json`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+        const title = (text) => {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(16);
+            doc.setTextColor(gray);
+            doc.text(text, margin, y);
+            y += 8;
+            drawHr();
+        };
 
-        this.mostrarNotificacion('Historial descargado correctamente');
+        const subtitle = (text) => {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            doc.setTextColor(gray);
+            doc.text(text, margin, y);
+            y += lineH;
+        };
+
+        const bodyText = (text) => {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.setTextColor(gray);
+            const lines = doc.splitTextToSize(text, pageWidth - margin * 2);
+            lines.forEach(line => {
+                if (y > pageHeight - margin) newPage();
+                doc.text(line, margin, y);
+                y += lineH;
+            });
+        };
+
+        const table = (headers, rows, colWidths) => {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10);
+            doc.setTextColor(gray);
+            let x = margin;
+            let maxHeaderH = lineH;
+            headers.forEach((h, i) => {
+                const w = colWidths[i];
+                doc.text(String(h), x, y);
+                x += w;
+            });
+            y += 10;
+            drawHr();
+
+            doc.setFont('helvetica', 'normal');
+            rows.forEach(row => {
+                if (y > pageHeight - margin) newPage(true, headers, colWidths);
+                x = margin;
+                row.forEach((cell, i) => {
+                    const w = colWidths[i];
+                    const txt = String(cell ?? '').trim();
+                    const lines = doc.splitTextToSize(txt, w - 8);
+                    lines.forEach((ln, idx) => {
+                        doc.text(ln, x, y + idx * lineH);
+                    });
+                
+                });
+                y += Math.max(lineH,  lineH * (
+                    Math.max(...row.map((cell, i) => doc.splitTextToSize(String(cell ?? ''), colWidths[i] - 8).length))
+                ));
+                doc.setDrawColor(226, 232, 240);
+                doc.line(margin, y - 6, pageWidth - margin, y - 6);
+            });
+            y += 6;
+        };
+
+        const newPage = (repeatHeader = false, headers = [], colWidths = []) => {
+            doc.addPage();
+            y = margin;
+            if (repeatHeader && headers.length) {
+                table(headers, [], colWidths); // solo dibuja cabecera y línea
+            }
+        };
+
+        // Portada
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(18);
+        doc.setTextColor(gray);
+        doc.text('MiHistorial — Informe médico familiar', margin, y);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(grayMuted);
+        doc.text(`Generado: ${new Date().toLocaleString('es-ES')}`, margin, y + 18);
+        y += 36;
+        drawHr();
+
+        // Resumen
+        subtitle('Resumen');
+        bodyText(`Usuario: ${this.usuarioActual?.nombre || ''}`);
+        bodyText(`Familia: ${this.familia.length} miembros · Citas futuras: ${this.citas.filter(c=> new Date(c.fecha) > new Date()).length} · Medicamentos activos: ${this.medicamentos.filter(m=> !m.fechaFin || new Date(m.fechaFin) >= new Date()).length} · Exámenes: ${this.examenes.length}`);
+
+        // Familia
+        subtitle('Grupo familiar');
+        table(
+            ['Nombre', 'Parentesco', 'Edad', 'Grupo'],
+            this.familia.map(m => [m.nombre, m.parentesco, m.fechaNacimiento ? this.calcularEdad(m.fechaNacimiento) + ' años' : '', m.grupoSanguineo || '']),
+            [180, 120, 80, 80]
+        );
+
+        // Citas
+        subtitle('Citas médicas');
+        const citasOrdenadas = [...this.citas].sort((a,b)=> new Date(a.fecha)-new Date(b.fecha));
+        table(
+            ['Paciente', 'Especialidad', 'Médico', 'Fecha', 'Lugar'],
+            citasOrdenadas.map(c => [c.miembroNombre, c.especialidad, c.medico, this.formatearFecha(c.fecha), c.lugar]),
+            [120, 130, 120, 120, 120]
+        );
+
+        // Medicamentos
+        subtitle('Medicamentos');
+        const medsActivos = this.medicamentos.filter(m => !m.fechaFin || new Date(m.fechaFin) >= new Date());
+        table(
+            ['Paciente', 'Nombre', 'Dosis', 'Horarios', 'Vigencia'],
+            medsActivos.map(m => [m.miembroNombre, m.nombre, m.dosis, (m.horarios||[]).join(', '), `${this.formatearFechaSolo(m.fechaInicio)}${m.fechaFin? ' → '+this.formatearFechaSolo(m.fechaFin): ''}`]),
+            [120, 140, 100, 120, 120]
+        );
+
+        // Exámenes
+        subtitle('Exámenes');
+        table(
+            ['Paciente', 'Tipo', 'Fecha', 'Lugar', 'Resultados'],
+            [...this.examenes].sort((a,b)=> new Date(b.fecha)-new Date(a.fecha)).map(e => [e.miembroNombre, e.tipo, this.formatearFechaSolo(e.fecha), e.lugar, (e.resultados||'').slice(0,140)]),
+            [120, 140, 90, 120, 150]
+        );
+
+        // Pie de página simple con numeración
+        const pageCount = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+            doc.setPage(i);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.setTextColor('#6b7280');
+            doc.text(`Página ${i} de ${pageCount}`, pageWidth - margin - 90, pageHeight - 24);
+        }
+
+        doc.save(`MiHistorial_${new Date().toISOString().slice(0,10)}.pdf`);
+        this.mostrarNotificacion('PDF generado correctamente');
     },
 
     // ============================================
