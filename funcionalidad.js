@@ -963,374 +963,378 @@ const app = {
     },
 
     // ============================================
-    // GENERAR PDF PROFESIONAL COMO LA IMAGEN
+    // GENERAR PDF PROFESIONAL COMO LA IMAGEN - CORREGIDO
     // ============================================
     descargarHistorial() {
-        if (!window.jspdf) {
-            this.mostrarNotificacion('No se pudo cargar el generador de PDF', 'error');
-            return;
-        }
+        try {
+            if (!window.jspdf) {
+                this.mostrarNotificacion('No se pudo cargar el generador de PDF', 'error');
+                return;
+            }
 
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ unit: 'pt', format: 'a4' });
 
-        // Configuración de diseño profesional médico
-        const margin = 50;
-        const pageWidth = doc.internal.pageSize.getWidth();
-        const pageHeight = doc.internal.pageSize.getHeight();
-        let y = margin + 30;
-        const lineHeight = 16;
-        const sectionSpacing = 20;
-        const titleColor = '#2563eb';  // Azul profesional
-        const textColor = '#374151';   // Gris oscuro
-        const lightGray = '#6b7280';   // Gris claro
-        const headerBg = '#f8fafc';    // Fondo gris muy claro
-        
-        // Helper: verificar si necesita nueva página
-        const needsNewPage = (additionalHeight) => {
-            return y + additionalHeight > pageHeight - margin - 40;
-        };
-
-        // Helper: agregar nueva página
-        const addNewPage = () => {
-            doc.addPage();
-            y = margin + 30;
-        };
-
-        // Helper: agregar logo/icono médico (simulado con cuadro azul)
-        const addMedicalIcon = (x, yPos) => {
-            doc.setFillColor(37, 99, 235); // Azul médico
-            doc.roundedRect(x, yPos, 40, 40, 5, 5, 'F');
+            // Configuración de diseño profesional médico
+            const margin = 50;
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            let y = margin + 30;
+            const lineHeight = 16;
+            const sectionSpacing = 20;
+            const titleColor = '#2563eb';  // Azul profesional
+            const textColor = '#374151';   // Gris oscuro
+            const lightGray = '#6b7280';   // Gris claro
             
-            // Cruz médica blanca
-            doc.setFillColor(255, 255, 255);
-            doc.rect(x + 15, yPos + 8, 10, 24, 'F'); // Vertical
-            doc.rect(x + 8, yPos + 15, 24, 10, 'F'); // Horizontal
-        };
+            // Helper: verificar si necesita nueva página
+            const needsNewPage = (additionalHeight) => {
+                return y + additionalHeight > pageHeight - margin - 40;
+            };
 
-        // ENCABEZADO PRINCIPAL COMO EN LA IMAGEN
-        this.addMedicalIcon(margin, y - 10);
-        
-        // Título principal
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(24);
-        doc.setTextColor(titleColor);
-        doc.text('MiHistorial — Informe Médico Familiar', margin + 60, y + 15);
-        
-        y += 40;
-        
-        // Información del paciente y fecha
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(12);
-        doc.setTextColor(textColor);
-        doc.text(`Paciente: ${this.usuarioActual.nombre}`, margin, y);
-        
-        const fechaActual = new Date().toLocaleDateString('es-ES', {
-            day: '2-digit',
-            month: 'long', 
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-        doc.text(`Fecha: ${fechaActual}`, margin, y + lineHeight);
-        
-        y += 40;
-        
-        // SECCIÓN RESUMEN (como en la imagen)
-        if (needsNewPage(80)) addNewPage();
-        
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(16);
-        doc.setTextColor(textColor);
-        doc.text('Resumen', margin, y);
-        y += 25;
-        
-        // Estadísticas del resumen
-        const ahora = new Date();
-        const citasFuturas = this.citas.filter(c => new Date(c.fecha) > ahora).length;
-        const medicamentosActivos = this.medicamentos.filter(m => !m.fechaFin || new Date(m.fechaFin) >= ahora).length;
-        
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(11);
-        doc.text(`Familia: ${this.familia.length} miembros`, margin, y);
-        doc.text(`Citas futuras: ${citasFuturas}`, margin, y + lineHeight);
-        doc.text(`Medicamentos activos: ${medicamentosActivos}`, margin, y + lineHeight * 2);
-        doc.text(`Exámenes: ${this.examenes.length}`, margin, y + lineHeight * 3);
-        
-        y += lineHeight * 4 + sectionSpacing;
-        
-        // GRUPO FAMILIAR (tabla como en la imagen)
-        if (needsNewPage(100)) addNewPage();
-        
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(16);
-        doc.setTextColor(textColor);
-        doc.text('Grupo Familiar', margin, y);
-        y += 25;
-        
-        if (this.familia.length > 0) {
-            // Cabeceras de tabla
-            const colWidths = [140, 120, 80, 100];
-            const headers = ['Nombre', 'Parentesco', 'Edad', 'Grupo'];
+            // Helper: agregar nueva página
+            const addNewPage = () => {
+                doc.addPage();
+                y = margin + 30;
+            };
+
+            // Helper: agregar logo/icono médico (simulado con cuadro azul)
+            const addMedicalIcon = (x, yPos) => {
+                doc.setFillColor(37, 99, 235); // Azul médico
+                doc.roundedRect(x, yPos, 40, 40, 5, 5, 'F');
+                
+                // Cruz médica blanca
+                doc.setFillColor(255, 255, 255);
+                doc.rect(x + 15, yPos + 8, 10, 24, 'F'); // Vertical
+                doc.rect(x + 8, yPos + 15, 24, 10, 'F'); // Horizontal
+            };
+
+            // ENCABEZADO PRINCIPAL COMO EN LA IMAGEN
+            addMedicalIcon(margin, y - 10);
             
-            // Fondo gris para cabeceras
-            doc.setFillColor(248, 250, 252);
-            doc.rect(margin, y - 5, pageWidth - margin * 2, 25, 'F');
-            
-            // Línea superior
-            doc.setDrawColor(203, 213, 225);
-            doc.setLineWidth(1);
-            doc.line(margin, y - 5, pageWidth - margin, y - 5);
-            
-            // Texto de cabeceras
+            // Título principal
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(10);
-            doc.setTextColor(textColor);
-            let x = margin + 5;
-            headers.forEach((header, i) => {
-                doc.text(header, x, y + 8);
-                x += colWidths[i];
-            });
+            doc.setFontSize(24);
+            doc.setTextColor(titleColor);
+            doc.text('MiHistorial — Informe Médico Familiar', margin + 60, y + 15);
             
-            y += 20;
+            y += 40;
             
-            // Línea separadora
-            doc.line(margin, y, pageWidth - margin, y);
-            y += 10;
-            
-            // Datos de familia
+            // Información del paciente y fecha
             doc.setFont('helvetica', 'normal');
+            doc.setFontSize(12);
             doc.setTextColor(textColor);
+            doc.text(`Paciente: ${this.usuarioActual.nombre}`, margin, y);
             
-            this.familia.forEach((miembro, index) => {
-                if (needsNewPage(25)) {
-                    addNewPage();
-                    // Repetir cabeceras si hay nueva página
-                }
+            const fechaActual = new Date().toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: 'long', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            doc.text(`Fecha: ${fechaActual}`, margin, y + lineHeight);
+            
+            y += 40;
+            
+            // SECCIÓN RESUMEN (como en la imagen)
+            if (needsNewPage(80)) addNewPage();
+            
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(16);
+            doc.setTextColor(textColor);
+            doc.text('Resumen', margin, y);
+            y += 25;
+            
+            // Estadísticas del resumen
+            const ahora = new Date();
+            const citasFuturas = this.citas.filter(c => new Date(c.fecha) > ahora).length;
+            const medicamentosActivos = this.medicamentos.filter(m => !m.fechaFin || new Date(m.fechaFin) >= ahora).length;
+            
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(11);
+            doc.text(`Familia: ${this.familia.length} miembros`, margin, y);
+            doc.text(`Citas futuras: ${citasFuturas}`, margin, y + lineHeight);
+            doc.text(`Medicamentos activos: ${medicamentosActivos}`, margin, y + lineHeight * 2);
+            doc.text(`Exámenes: ${this.examenes.length}`, margin, y + lineHeight * 3);
+            
+            y += lineHeight * 4 + sectionSpacing;
+            
+            // GRUPO FAMILIAR (tabla como en la imagen)
+            if (needsNewPage(100)) addNewPage();
+            
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(16);
+            doc.setTextColor(textColor);
+            doc.text('Grupo Familiar', margin, y);
+            y += 25;
+            
+            if (this.familia.length > 0) {
+                // Cabeceras de tabla
+                const colWidths = [140, 120, 80, 100];
+                const headers = ['Nombre', 'Parentesco', 'Edad', 'Grupo'];
                 
-                const edad = miembro.fechaNacimiento ? `${this.calcularEdad(miembro.fechaNacimiento)} años` : 'N/A';
-                const datos = [
-                    miembro.nombre,
-                    miembro.parentesco, 
-                    edad,
-                    miembro.grupoSanguineo || 'N/A'
-                ];
+                // Fondo gris para cabeceras
+                doc.setFillColor(248, 250, 252);
+                doc.rect(margin, y - 5, pageWidth - margin * 2, 25, 'F');
                 
-                x = margin + 5;
-                datos.forEach((dato, i) => {
-                    doc.text(String(dato), x, y);
+                // Línea superior
+                doc.setDrawColor(203, 213, 225);
+                doc.setLineWidth(1);
+                doc.line(margin, y - 5, pageWidth - margin, y - 5);
+                
+                // Texto de cabeceras
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(10);
+                doc.setTextColor(textColor);
+                let x = margin + 5;
+                headers.forEach((header, i) => {
+                    doc.text(header, x, y + 8);
                     x += colWidths[i];
                 });
                 
-                y += lineHeight;
+                y += 20;
                 
-                // Línea separadora sutil entre filas
-                if (index < this.familia.length - 1) {
-                    doc.setDrawColor(240, 240, 240);
-                    doc.line(margin, y + 2, pageWidth - margin, y + 2);
-                }
-            });
-            
-            y += sectionSpacing;
-        }
-        
-        // CITAS MÉDICAS
-        if (this.citas.length > 0) {
-            if (needsNewPage(100)) addNewPage();
-            
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(16);
-            doc.setTextColor(textColor);
-            doc.text('Citas Médicas', margin, y);
-            y += 25;
-            
-            // Tabla de citas
-            const citasColWidths = [90, 110, 100, 80, 100];
-            const citasHeaders = ['Paciente', 'Especialidad', 'Médico', 'Fecha', 'Lugar'];
-            
-            // Cabeceras
-            doc.setFillColor(248, 250, 252);
-            doc.rect(margin, y - 5, pageWidth - margin * 2, 25, 'F');
-            doc.setDrawColor(203, 213, 225);
-            doc.line(margin, y - 5, pageWidth - margin, y - 5);
-            
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(10);
-            x = margin + 5;
-            citasHeaders.forEach((header, i) => {
-                doc.text(header, x, y + 8);
-                x += citasColWidths[i];
-            });
-            
-            y += 20;
-            doc.line(margin, y, pageWidth - margin, y);
-            y += 10;
-            
-            // Datos de citas ordenadas por fecha
-            const citasOrdenadas = [...this.citas].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
-            
-            doc.setFont('helvetica', 'normal');
-            citasOrdenadas.forEach(cita => {
-                if (needsNewPage(20)) addNewPage();
+                // Línea separadora
+                doc.line(margin, y, pageWidth - margin, y);
+                y += 10;
                 
-                const datosCita = [
-                    cita.miembroNombre,
-                    cita.especialidad,
-                    cita.medico,
-                    this.formatearFechaSolo(cita.fecha),
-                    cita.lugar
-                ];
+                // Datos de familia
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(textColor);
                 
-                x = margin + 5;
-                datosCita.forEach((dato, i) => {
-                    const texto = String(dato);
-                    const maxWidth = citasColWidths[i] - 10;
-                    const lineas = doc.splitTextToSize(texto, maxWidth);
-                    doc.text(lineas[0] || '', x, y); // Solo primera línea para mantener formato tabular
+                this.familia.forEach((miembro, index) => {
+                    if (needsNewPage(25)) {
+                        addNewPage();
+                        // Repetir cabeceras si hay nueva página
+                    }
+                    
+                    const edad = miembro.fechaNacimiento ? `${this.calcularEdad(miembro.fechaNacimiento)} años` : 'N/A';
+                    const datos = [
+                        miembro.nombre,
+                        miembro.parentesco, 
+                        edad,
+                        miembro.grupoSanguineo || 'N/A'
+                    ];
+                    
+                    x = margin + 5;
+                    datos.forEach((dato, i) => {
+                        doc.text(String(dato), x, y);
+                        x += colWidths[i];
+                    });
+                    
+                    y += lineHeight;
+                    
+                    // Línea separadora sutil entre filas
+                    if (index < this.familia.length - 1) {
+                        doc.setDrawColor(240, 240, 240);
+                        doc.line(margin, y + 2, pageWidth - margin, y + 2);
+                    }
+                });
+                
+                y += sectionSpacing;
+            }
+            
+            // CITAS MÉDICAS
+            if (this.citas.length > 0) {
+                if (needsNewPage(100)) addNewPage();
+                
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(16);
+                doc.setTextColor(textColor);
+                doc.text('Citas Médicas', margin, y);
+                y += 25;
+                
+                // Tabla de citas
+                const citasColWidths = [90, 110, 100, 80, 100];
+                const citasHeaders = ['Paciente', 'Especialidad', 'Médico', 'Fecha', 'Lugar'];
+                
+                // Cabeceras
+                doc.setFillColor(248, 250, 252);
+                doc.rect(margin, y - 5, pageWidth - margin * 2, 25, 'F');
+                doc.setDrawColor(203, 213, 225);
+                doc.line(margin, y - 5, pageWidth - margin, y - 5);
+                
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(10);
+                let x = margin + 5;
+                citasHeaders.forEach((header, i) => {
+                    doc.text(header, x, y + 8);
                     x += citasColWidths[i];
                 });
                 
-                y += lineHeight;
-            });
-            
-            y += sectionSpacing;
-        }
-        
-        // MEDICAMENTOS
-        if (this.medicamentos.length > 0) {
-            if (needsNewPage(100)) addNewPage();
-            
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(16);
-            doc.text('Medicamentos', margin, y);
-            y += 25;
-            
-            // Tabla de medicamentos con formato similar
-            const medColWidths = [90, 120, 80, 90, 100];
-            const medHeaders = ['Paciente', 'Medicamento', 'Dosis', 'Horarios', 'Vigencia'];
-            
-            // Cabeceras
-            doc.setFillColor(248, 250, 252);
-            doc.rect(margin, y - 5, pageWidth - margin * 2, 25, 'F');
-            doc.setDrawColor(203, 213, 225);
-            doc.line(margin, y - 5, pageWidth - margin, y - 5);
-            
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(10);
-            x = margin + 5;
-            medHeaders.forEach((header, i) => {
-                doc.text(header, x, y + 8);
-                x += medColWidths[i];
-            });
-            
-            y += 20;
-            doc.line(margin, y, pageWidth - margin, y);
-            y += 10;
-            
-            doc.setFont('helvetica', 'normal');
-            this.medicamentos.forEach(med => {
-                if (needsNewPage(20)) addNewPage();
+                y += 20;
+                doc.line(margin, y, pageWidth - margin, y);
+                y += 10;
                 
-                const vigencia = `${this.formatearFechaSolo(med.fechaInicio)}${med.fechaFin ? ' - ' + this.formatearFechaSolo(med.fechaFin) : ''}`;
-                const datosMed = [
-                    med.miembroNombre,
-                    med.nombre,
-                    med.dosis,
-                    med.horarios.join(', '),
-                    vigencia
-                ];
+                // Datos de citas ordenadas por fecha
+                const citasOrdenadas = [...this.citas].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
                 
-                x = margin + 5;
-                datosMed.forEach((dato, i) => {
-                    const texto = String(dato);
-                    const maxWidth = medColWidths[i] - 10;
-                    const lineas = doc.splitTextToSize(texto, maxWidth);
-                    doc.text(lineas[0] || '', x, y);
+                doc.setFont('helvetica', 'normal');
+                citasOrdenadas.forEach(cita => {
+                    if (needsNewPage(20)) addNewPage();
+                    
+                    const datosCita = [
+                        cita.miembroNombre,
+                        cita.especialidad,
+                        cita.medico,
+                        this.formatearFechaSolo(cita.fecha),
+                        cita.lugar
+                    ];
+                    
+                    x = margin + 5;
+                    datosCita.forEach((dato, i) => {
+                        const texto = String(dato);
+                        const maxWidth = citasColWidths[i] - 10;
+                        const lineas = doc.splitTextToSize(texto, maxWidth);
+                        doc.text(lineas[0] || '', x, y); // Solo primera línea para mantener formato tabular
+                        x += citasColWidths[i];
+                    });
+                    
+                    y += lineHeight;
+                });
+                
+                y += sectionSpacing;
+            }
+            
+            // MEDICAMENTOS
+            if (this.medicamentos.length > 0) {
+                if (needsNewPage(100)) addNewPage();
+                
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(16);
+                doc.text('Medicamentos', margin, y);
+                y += 25;
+                
+                // Tabla de medicamentos con formato similar
+                const medColWidths = [90, 120, 80, 90, 100];
+                const medHeaders = ['Paciente', 'Medicamento', 'Dosis', 'Horarios', 'Vigencia'];
+                
+                // Cabeceras
+                doc.setFillColor(248, 250, 252);
+                doc.rect(margin, y - 5, pageWidth - margin * 2, 25, 'F');
+                doc.setDrawColor(203, 213, 225);
+                doc.line(margin, y - 5, pageWidth - margin, y - 5);
+                
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(10);
+                let x = margin + 5;
+                medHeaders.forEach((header, i) => {
+                    doc.text(header, x, y + 8);
                     x += medColWidths[i];
                 });
                 
-                y += lineHeight;
-            });
-            
-            y += sectionSpacing;
-        }
-        
-        // EXÁMENES
-        if (this.examenes.length > 0) {
-            if (needsNewPage(100)) addNewPage();
-            
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(16);
-            doc.text('Exámenes', margin, y);
-            y += 25;
-            
-            const examColWidths = [90, 110, 80, 90, 110];
-            const examHeaders = ['Paciente', 'Examen', 'Fecha', 'Lugar', 'Resultados'];
-            
-            // Cabeceras
-            doc.setFillColor(248, 250, 252);
-            doc.rect(margin, y - 5, pageWidth - margin * 2, 25, 'F');
-            doc.setDrawColor(203, 213, 225);
-            doc.line(margin, y - 5, pageWidth - margin, y - 5);
-            
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(10);
-            x = margin + 5;
-            examHeaders.forEach((header, i) => {
-                doc.text(header, x, y + 8);
-                x += examColWidths[i];
-            });
-            
-            y += 20;
-            doc.line(margin, y, pageWidth - margin, y);
-            y += 10;
-            
-            const examenesOrdenados = [...this.examenes].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
-            
-            doc.setFont('helvetica', 'normal');
-            examenesOrdenados.forEach(examen => {
-                if (needsNewPage(20)) addNewPage();
+                y += 20;
+                doc.line(margin, y, pageWidth - margin, y);
+                y += 10;
                 
-                const resultado = examen.resultados ? 
-                    (examen.resultados.length > 50 ? examen.resultados.substring(0, 47) + '...' : examen.resultados) : 
-                    'Pendiente';
+                doc.setFont('helvetica', 'normal');
+                this.medicamentos.forEach(med => {
+                    if (needsNewPage(20)) addNewPage();
                     
-                const datosExamen = [
-                    examen.miembroNombre,
-                    examen.tipo,
-                    this.formatearFechaSolo(examen.fecha),
-                    examen.lugar,
-                    resultado
-                ];
+                    const vigencia = `${this.formatearFechaSolo(med.fechaInicio)}${med.fechaFin ? ' - ' + this.formatearFechaSolo(med.fechaFin) : ''}`;
+                    const datosMed = [
+                        med.miembroNombre,
+                        med.nombre,
+                        med.dosis,
+                        med.horarios.join(', '),
+                        vigencia
+                    ];
+                    
+                    x = margin + 5;
+                    datosMed.forEach((dato, i) => {
+                        const texto = String(dato);
+                        const maxWidth = medColWidths[i] - 10;
+                        const lineas = doc.splitTextToSize(texto, maxWidth);
+                        doc.text(lineas[0] || '', x, y);
+                        x += medColWidths[i];
+                    });
+                    
+                    y += lineHeight;
+                });
                 
-                x = margin + 5;
-                datosExamen.forEach((dato, i) => {
-                    const texto = String(dato);
-                    const maxWidth = examColWidths[i] - 10;
-                    const lineas = doc.splitTextToSize(texto, maxWidth);
-                    doc.text(lineas[0] || '', x, y);
+                y += sectionSpacing;
+            }
+            
+            // EXÁMENES
+            if (this.examenes.length > 0) {
+                if (needsNewPage(100)) addNewPage();
+                
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(16);
+                doc.text('Exámenes', margin, y);
+                y += 25;
+                
+                const examColWidths = [90, 110, 80, 90, 110];
+                const examHeaders = ['Paciente', 'Examen', 'Fecha', 'Lugar', 'Resultados'];
+                
+                // Cabeceras
+                doc.setFillColor(248, 250, 252);
+                doc.rect(margin, y - 5, pageWidth - margin * 2, 25, 'F');
+                doc.setDrawColor(203, 213, 225);
+                doc.line(margin, y - 5, pageWidth - margin, y - 5);
+                
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(10);
+                let x = margin + 5;
+                examHeaders.forEach((header, i) => {
+                    doc.text(header, x, y + 8);
                     x += examColWidths[i];
                 });
                 
-                y += lineHeight;
-            });
+                y += 20;
+                doc.line(margin, y, pageWidth - margin, y);
+                y += 10;
+                
+                const examenesOrdenados = [...this.examenes].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+                
+                doc.setFont('helvetica', 'normal');
+                examenesOrdenados.forEach(examen => {
+                    if (needsNewPage(20)) addNewPage();
+                    
+                    const resultado = examen.resultados ? 
+                        (examen.resultados.length > 50 ? examen.resultados.substring(0, 47) + '...' : examen.resultados) : 
+                        'Pendiente';
+                        
+                    const datosExamen = [
+                        examen.miembroNombre,
+                        examen.tipo,
+                        this.formatearFechaSolo(examen.fecha),
+                        examen.lugar,
+                        resultado
+                    ];
+                    
+                    x = margin + 5;
+                    datosExamen.forEach((dato, i) => {
+                        const texto = String(dato);
+                        const maxWidth = examColWidths[i] - 10;
+                        const lineas = doc.splitTextToSize(texto, maxWidth);
+                        doc.text(lineas[0] || '', x, y);
+                        x += examColWidths[i];
+                    });
+                    
+                    y += lineHeight;
+                });
+            }
+            
+            // PIE DE PÁGINA CON NUMERACIÓN
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(9);
+                doc.setTextColor(lightGray);
+                doc.text(`Página ${i} de ${pageCount}`, pageWidth - margin - 60, pageHeight - 20);
+                doc.text('MiHistorial — Sistema de Gestión Médica', margin, pageHeight - 20);
+            }
+            
+            // Descargar con nombre descriptivo
+            const fechaArchivo = new Date().toISOString().slice(0, 10);
+            doc.save(`MiHistorial_${this.usuarioActual.nombre.replace(/\s+/g, '_')}_${fechaArchivo}.pdf`);
+            this.mostrarNotificacion('PDF generado correctamente');
+        } catch (error) {
+            console.error('Error generando PDF:', error);
+            this.mostrarNotificacion('Error al generar el PDF. Por favor inténtalo de nuevo.', 'error');
         }
-        
-        // PIE DE PÁGINA CON NUMERACIÓN
-        const pageCount = doc.internal.getNumberOfPages();
-        for (let i = 1; i <= pageCount; i++) {
-            doc.setPage(i);
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(9);
-            doc.setTextColor(lightGray);
-            doc.text(`Página ${i} de ${pageCount}`, pageWidth - margin - 60, pageHeight - 20);
-            doc.text('MiHistorial — Sistema de Gestión Médica', margin, pageHeight - 20);
-        }
-        
-        // Descargar con nombre descriptivo
-        const fechaArchivo = new Date().toISOString().slice(0, 10);
-        doc.save(`MiHistorial_${this.usuarioActual.nombre.replace(/\s+/g, '_')}_${fechaArchivo}.pdf`);
-        this.mostrarNotificacion('PDF generado correctamente con diseño profesional');
     },
 
     // ============================================
