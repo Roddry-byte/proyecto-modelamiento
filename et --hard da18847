@@ -1,0 +1,24 @@
+[33m398f13d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Docs: Placeholder to track PDF template update (changes are in funcionalidad.js)
+[33m47abb20[m Fix: Corregir verificación y carga de librería jsPDF para generar PDFs correctamente
+[33m3de2509[m Enhance: Mejorar generación de PDF con diseño profesional y estético
+[33m2a3628e[m Fix: Corregir carga de scripts para generación de PDF
+[33m094cc98[m Fix: Corregir errores JavaScript críticos y mejorar funcionalidad de la aplicación
+[33me38e682[m Arreglado tema del pdf pero con problemas en codigo js
+[33mfc2bfb7[m Arreglado tema del pdf pero con problemas en codigo js
+[33m10ff736[m Feature: Edición de familiares y usuario principal integrada en funcionalidad.js
+[33m9a19f9d[m Mejora de botones y funcionamiento
+[33m14b188a[m Main: referenciar public/patch-editar-familia.js en index.html
+[33m8b66b29[m Feature(main): habilitar edición de familiares y usuario mediante modal existente (botón ✏️ Editar, precarga y guardado)
+[33m1a6342d[m Hotfix main: restaurar index.html completo con campos de fecha y hora separados y cargar patch-pdf-form.js
+[33m5ec5e8a[m Main: incluir patch-pdf-form.js y CSS grid-2 para fecha/hora separados
+[33me244706[m Merge pull request #4 from Roddry-byte/correccion-errores-mejoras
+[33mc9b8998[m CORRECCIÓN CRÍTICA: PDF sin solapamientos + navegación + estados vacíos
+[33meb59c71[m Actualizar index.html con todos los modales completos y jsPDF
+[33ma5fa4e6[m Merge pull request #3 from Roddry-byte/exportar-pdf-sobrio
+[33m3f38b9a[m[33m ([m[1;31morigin/exportar-pdf-sobrio[m[33m)[m Exportar PDF sobrio con jsPDF: secciones claras, tablas compactas, numeración de páginas
+[33mec1fc41[m Agregar jsPDF desde CDN para exportar PDF sobrio (no cambia UI)
+[33me98611b[m Merge UX móvil: grid 2x2 en styles.css
+[33mdb7aec8[m Merge pull request #1 from Roddry-byte/mejora-listas-secciones
+[33m8bada36[m Mejorar UX de secciones: renderizado automático y estados vacíos con botones CTA
+[33mda18847[m Subir archivos del proyecto web
+[33me2f02e2[m first commit
