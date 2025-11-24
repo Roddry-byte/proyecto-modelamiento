@@ -963,7 +963,7 @@ const app = {
     },
 
     // ============================================
-    // GENERAR PDF PROFESIONAL COMO LA IMAGEN - CORREGIDO
+    // GENERAR PDF PROFESIONAL CON ICONO SVG
     // ============================================
     descargarHistorial() {
         try {
@@ -982,9 +982,9 @@ const app = {
             let y = margin + 30;
             const lineHeight = 16;
             const sectionSpacing = 20;
-            const titleColor = '#2563eb';  // Azul profesional
-            const textColor = '#374151';   // Gris oscuro
-            const lightGray = '#6b7280';   // Gris claro
+            const titleColor = '#2563eb';
+            const textColor = '#374151';
+            const lightGray = '#6b7280';
             
             // Helper: verificar si necesita nueva página
             const needsNewPage = (additionalHeight) => {
@@ -997,19 +997,55 @@ const app = {
                 y = margin + 30;
             };
 
-            // Helper: agregar logo/icono médico (simulado con cuadro azul)
-            const addMedicalIcon = (x, yPos) => {
+            // Helper: dibujar icono SVG de frecuencia cardíaca en blanco
+            const addHeartbeatIcon = (x, yPos, size = 40) => {
+                // Fondo azul con esquinas redondeadas
                 doc.setFillColor(37, 99, 235); // Azul médico
-                doc.roundedRect(x, yPos, 40, 40, 5, 5, 'F');
+                doc.roundedRect(x, yPos, size, size, 5, 5, 'F');
                 
-                // Cruz médica blanca
-                doc.setFillColor(255, 255, 255);
-                doc.rect(x + 15, yPos + 8, 10, 24, 'F'); // Vertical
-                doc.rect(x + 8, yPos + 15, 24, 10, 'F'); // Horizontal
+                // Configurar color blanco para el icono
+                doc.setDrawColor(255, 255, 255);
+                doc.setLineWidth(2);
+                
+                // Dibujar la línea de frecuencia cardíaca (electrocardiograma)
+                // Escalado proporcional al tamaño del cuadro
+                const scale = size / 24; // 24 es el viewBox del SVG original
+                const offsetX = x + 2 * scale;
+                const offsetY = yPos + size / 2;
+                
+                // Path: M3 12h3l2-8l4 16l2-8h7
+                // Convertir coordenadas del path SVG a coordenadas del PDF
+                doc.line(
+                    offsetX + 3 * scale, offsetY,  // M3 12 (inicio)
+                    offsetX + 6 * scale, offsetY   // h3 (horizontal +3)
+                );
+                doc.line(
+                    offsetX + 6 * scale, offsetY,   // Desde el punto anterior
+                    offsetX + 8 * scale, offsetY - 8 * scale  // l2-8 (subida)
+                );
+                doc.line(
+                    offsetX + 8 * scale, offsetY - 8 * scale,
+                    offsetX + 12 * scale, offsetY + 8 * scale  // l4 16 (bajada)
+                );
+                doc.line(
+                    offsetX + 12 * scale, offsetY + 8 * scale,
+                    offsetX + 14 * scale, offsetY  // l2-8 (vuelta al centro)
+                );
+                doc.line(
+                    offsetX + 14 * scale, offsetY,
+                    offsetX + 21 * scale, offsetY  // h7 (horizontal +7)
+                );
+                
+                // Dibujar círculo de fondo con opacidad
+                doc.setDrawColor(255, 255, 255);
+                doc.setLineWidth(1);
+                doc.setGState(new doc.GState({opacity: 0.2}));
+                doc.circle(x + size / 2, yPos + size / 2, size * 0.42, 'S');
+                doc.setGState(new doc.GState({opacity: 1})); // Restaurar opacidad
             };
 
-            // ENCABEZADO PRINCIPAL COMO EN LA IMAGEN
-            addMedicalIcon(margin, y - 10);
+            // ENCABEZADO PRINCIPAL CON ICONO SVG
+            addHeartbeatIcon(margin, y - 10);
             
             // Título principal
             doc.setFont('helvetica', 'bold');
@@ -1036,7 +1072,7 @@ const app = {
             
             y += 40;
             
-            // SECCIÓN RESUMEN (como en la imagen)
+            // SECCIÓN RESUMEN
             if (needsNewPage(80)) addNewPage();
             
             doc.setFont('helvetica', 'bold');
@@ -1059,7 +1095,7 @@ const app = {
             
             y += lineHeight * 4 + sectionSpacing;
             
-            // GRUPO FAMILIAR (tabla como en la imagen)
+            // GRUPO FAMILIAR (tabla)
             if (needsNewPage(100)) addNewPage();
             
             doc.setFont('helvetica', 'bold');
@@ -1069,7 +1105,6 @@ const app = {
             y += 25;
             
             if (this.familia.length > 0) {
-                // Cabeceras de tabla
                 const colWidths = [140, 120, 80, 100];
                 const headers = ['Nombre', 'Parentesco', 'Edad', 'Grupo'];
                 
@@ -1093,8 +1128,6 @@ const app = {
                 });
                 
                 y += 20;
-                
-                // Línea separadora
                 doc.line(margin, y, pageWidth - margin, y);
                 y += 10;
                 
@@ -1103,10 +1136,7 @@ const app = {
                 doc.setTextColor(textColor);
                 
                 this.familia.forEach((miembro, index) => {
-                    if (needsNewPage(25)) {
-                        addNewPage();
-                        // Repetir cabeceras si hay nueva página
-                    }
+                    if (needsNewPage(25)) addNewPage();
                     
                     const edad = miembro.fechaNacimiento ? `${this.calcularEdad(miembro.fechaNacimiento)} años` : 'N/A';
                     const datos = [
@@ -1124,7 +1154,6 @@ const app = {
                     
                     y += lineHeight;
                     
-                    // Línea separadora sutil entre filas
                     if (index < this.familia.length - 1) {
                         doc.setDrawColor(240, 240, 240);
                         doc.line(margin, y + 2, pageWidth - margin, y + 2);
@@ -1144,11 +1173,9 @@ const app = {
                 doc.text('Citas Médicas', margin, y);
                 y += 25;
                 
-                // Tabla de citas
                 const citasColWidths = [90, 110, 100, 80, 100];
                 const citasHeaders = ['Paciente', 'Especialidad', 'Médico', 'Fecha', 'Lugar'];
                 
-                // Cabeceras
                 doc.setFillColor(248, 250, 252);
                 doc.rect(margin, y - 5, pageWidth - margin * 2, 25, 'F');
                 doc.setDrawColor(203, 213, 225);
@@ -1166,7 +1193,6 @@ const app = {
                 doc.line(margin, y, pageWidth - margin, y);
                 y += 10;
                 
-                // Datos de citas ordenadas por fecha
                 const citasOrdenadas = [...this.citas].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
                 
                 doc.setFont('helvetica', 'normal');
@@ -1186,7 +1212,7 @@ const app = {
                         const texto = String(dato);
                         const maxWidth = citasColWidths[i] - 10;
                         const lineas = doc.splitTextToSize(texto, maxWidth);
-                        doc.text(lineas[0] || '', x, y); // Solo primera línea para mantener formato tabular
+                        doc.text(lineas[0] || '', x, y);
                         x += citasColWidths[i];
                     });
                     
@@ -1205,11 +1231,9 @@ const app = {
                 doc.text('Medicamentos', margin, y);
                 y += 25;
                 
-                // Tabla de medicamentos con formato similar
                 const medColWidths = [90, 120, 80, 90, 100];
                 const medHeaders = ['Paciente', 'Medicamento', 'Dosis', 'Horarios', 'Vigencia'];
                 
-                // Cabeceras
                 doc.setFillColor(248, 250, 252);
                 doc.rect(margin, y - 5, pageWidth - margin * 2, 25, 'F');
                 doc.setDrawColor(203, 213, 225);
@@ -1267,7 +1291,6 @@ const app = {
                 const examColWidths = [90, 110, 80, 90, 110];
                 const examHeaders = ['Paciente', 'Examen', 'Fecha', 'Lugar', 'Resultados'];
                 
-                // Cabeceras
                 doc.setFillColor(248, 250, 252);
                 doc.rect(margin, y - 5, pageWidth - margin * 2, 25, 'F');
                 doc.setDrawColor(203, 213, 225);
@@ -1324,12 +1347,12 @@ const app = {
                 doc.setFontSize(9);
                 doc.setTextColor(lightGray);
                 doc.text(`Página ${i} de ${pageCount}`, pageWidth - margin - 60, pageHeight - 20);
-                doc.text('MiHistorial — Sistema de Gestión Médica', margin, pageHeight - 20);
+                doc.text('MiSalud — Sistema de Gestión Médica', margin, pageHeight - 20);
             }
             
             // Descargar con nombre descriptivo
             const fechaArchivo = new Date().toISOString().slice(0, 10);
-            doc.save(`MiHistorial_${this.usuarioActual.nombre.replace(/\s+/g, '_')}_${fechaArchivo}.pdf`);
+            doc.save(`MiSalud_${this.usuarioActual.nombre.replace(/\s+/g, '_')}_${fechaArchivo}.pdf`);
             this.mostrarNotificacion('PDF generado correctamente');
         } catch (error) {
             console.error('Error generando PDF:', error);
