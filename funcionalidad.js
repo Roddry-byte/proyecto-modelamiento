@@ -1015,7 +1015,7 @@ const app = {
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(24);
             doc.setTextColor(titleColor);
-            doc.text('MiHistorial — Informe Médico Familiar', margin + 60, y + 15);
+            doc.text('MiSalud — Informe Médico Familiar', margin + 60, y + 15);
             
             y += 40;
             
