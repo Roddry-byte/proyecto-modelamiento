@@ -10,7 +10,7 @@
 
     --color-secondary: #8b5cf6;
     --color-secondary-hover: #7c3aed;
-    --color-secondary-light: #ede9fe;
+    --color-secondary-light: #1c2744;
 
     --color-success: #10b981;
     --color-success-light: #d1fae5;
@@ -35,7 +35,7 @@
     /* Colores semánticos */
     --color-background: #f8fafc;
     --color-surface: #ffffff;
-    --color-text: #1e293b;
+    --color-text: #0b2f69;
     --color-text-secondary: #64748b;
     --color-border: #e2e8f0;
 
@@ -92,8 +92,8 @@
 
         --color-background: #0f172a;
         --color-surface: #1e293b;
-        --color-text: #f1f5f9;
-        --color-text-secondary: #94a3b8;
+        --color-text: #1776d4;
+        --color-text-secondary: #96b9eb;
         --color-border: #334155;
 
         --color-gray-50: #1e293b;
